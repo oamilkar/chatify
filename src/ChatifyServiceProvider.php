@@ -58,6 +58,11 @@ class ChatifyServiceProvider extends ServiceProvider
             __DIR__ . '/config/chatify.php' => config_path('chatify.php')
         ], 'chatify-config');
 
+        // Routes
+        $this->publishes([
+            __DIR__ . '/routes/web.php' => base_path('routes/chatify.php')
+        ], 'chatify-routes');
+
         // Migrations
         $this->publishes([
             __DIR__ . '/database/migrations/' => database_path('migrations')
@@ -98,7 +103,7 @@ class ChatifyServiceProvider extends ServiceProvider
     protected function loadRoutes()
     {
         Route::group($this->routesConfigurations(), function () {
-            $this->loadRoutesFrom(__DIR__ . '/routes/web.php');
+            $this->loadRoutesFrom(config('chatify.routes.file', null) ?? __DIR__ . '/routes/web.php');
         });
     }
 
